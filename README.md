@@ -4,6 +4,8 @@
 
 The figinator is a Mudlet package designed to put the awesome power of [Figlets](http://figlet.org) right at your finger tips.
 
+Examples of all the included fonts can be font on [the Wiki](https://github.com/demonnic/figinator/wiki)
+
 ## Installation
 
 The fastest way to install the figinator is to run the following alias:
