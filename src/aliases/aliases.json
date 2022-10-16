@@ -1,0 +1,27 @@
+[
+  {
+    "name": "fig fontlist",
+    "regex": "^fig fontlist$",
+    "script": "figinator.listFonts()"
+  },
+  {
+    "name": "fig font",
+    "regex": "^fig font (\\w+)"
+  },
+  {
+    "name": "fig draw",
+    "regex": "^fig draw (.+)"
+  },
+  {
+    "name": "fig demo",
+    "regex": "^fig demo (\\w+)"
+  },
+  {
+    "name": "fig kern",
+    "regex": "^fig kern (.+)"
+  },
+  {
+    "name": "fig smush",
+    "regex": "^fig smush (.+)"
+  }
+]
