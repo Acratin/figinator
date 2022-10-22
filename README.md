@@ -47,6 +47,33 @@ This is primarily meant to be used via script for your triggers and the like to 
   * Demonstrates the font in all three styles using the msg "Fig Test". This may take a screen to do all three.
 * `figinator.demoAll()`
   * Demonstrates all of the fonts. This will be pretty spammy.
+* `figinator.getFancy(options)`
+  * This function does it all! Including interleaving color gradients for use with decho!
+  * options is a table of options to apply. Valid options are:
+    * msg
+      * this one is required, and is the text to make the figlet out of
+    * kern
+      * if true, will apply kerning, reducing the space between the letters
+      * defaults to false
+    * smush
+      * if true, will smush the letters closer, having them share edges where possible
+      * defaults to false
+    * gradType
+      * use either 'h' for horizontal, or 'v' for vertical. 
+      * defaults to 'h'
+    * gradient
+      * the actual gradient to use. Can either be a table of gradient stops to use, or the string name of an included gradient
+      * `gradient = {{50,50,50}, {255,0,0}, {50,50,50}}`
+        * would shift from grey to red to grey
+      * `gradient = "rainbow"`
+        * will use the included "rainbow" gradient
+  * example:
+    * `decho(figinator.getFancy({ msg = "Gradient1", gradient = "rainbow", smush = true }))`
+      * Uses the included 'rainbow' gradient horizontally
+    * `decho(figinator.getFancy({ msg = "Gradient2", gradient = {{255,0,0}, {0,255,0}} }))`
+      * Will gradient from red to green horizontally
+    * `decho(figinator.getFancy({ msg = "Gradient3", gradType = "v", kern = true, gradient = {{75,0,0}, {255,0,0}} }))`
+      * Will gradient from dark red to light red, vertically.
 
 ## Credit and acclaim
 
