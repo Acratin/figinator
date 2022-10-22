@@ -1,4 +1,28 @@
 figinator = figinator or {}
+figinator.grads = {
+  rainbow = { { 255, 0, 0 }, { 255, 128, 0 }, { 255, 255, 0 }, { 0, 255, 0 }, { 0, 255, 255 }, { 0, 128, 255 }, { 128, 0, 255 } },
+  green = {{50,50,50}, {0,255,0}, {50,50,50}},
+  red = {{50,50,50}, {255,0,0}, {50,50,50}},
+  blue = {{50,50,50}, {0,0,255}, {50,50,50}},
+  redblue = {{255, 0, 0}, {0, 0, 255}},
+  redbluered = {{255, 0, 0}, {0, 0, 255}, {255, 0,0}},
+  redbluegreen = {{255, 0, 0}, {0, 0, 255}, {0,255,0}},
+  redgreen = {{255, 0,0}, {0,255,0}},
+  redgreenred = {{255, 0,0}, {0,255,0}, {255,0,0}},
+  redgreenblue = {{255, 0,0}, {0,255,0}, {0,0,255}},
+  bluered = {{0,0,255}, {255, 0, 0}},
+  blueredblue = {{0,0,255}, {255, 0, 0}, {0,0,255}},
+  blueredgreen = {{0,0,255}, {255, 0, 0}, {0,255,0}},
+  bluegreen = {{0,0,255}, {0,255,0}},
+  bluegreenblue = {{0,0,255}, {0,255,0}, {0,0,255}},
+  bluegreenred = {{0,0,255}, {0,255,0}, {255,0,0}},
+  greenred = {{0,255,0}, {255,0,0}},
+  greenredgreen = {{0,255,0}, {255,0,0}, {0,255,0}},
+  greenredblue = {{0,255,0}, {255,0,0}, {0,0,255}},
+  greenblue = {{0,255,0}, {0,0,255}},
+  greenbluegreen = {{0,255,0}, {0,0,255}, {0,255,0}},
+  greenbluered = {{0,255,0}, {0,0,255}, {255,0,0}},
+}
 
 -- setup some basic variables for use
 local dir = getMudletHomeDir() .. "/@PKGNAME@/"
@@ -31,11 +55,15 @@ table.sort(fontNames)
 local fig = figinator.fig or require("@PKGNAME@.figlet")
 figinator.fig = fig
 
+local gm = figinator.gm or require("@PKGNAME@.gradientmaker")
+figinator.gm = gm
+
 -- to echo stuff
 local function fecho(msg)
   cecho(f"<purple>FIGINATOR<reset>: {msg}\n")
 end
 figinator.fecho = fecho
+
 function figinator.getString(msg)
   return fig.getString(msg)
 end
@@ -46,6 +74,66 @@ end
 
 function figinator.getSmush(msg)
   return fig.getSmush(msg)
+end
+
+function figinator.getFancy(options)
+  local sub = string.sub
+  local functionSig = "figinator.getFancy(options):"
+  local optionsType = type(options)
+  if optionsType ~= "table" then
+    return nil, f"{functionSig} options must be a table of options, got {optionsType}"
+  end
+  if not options.msg then
+    return nil, f"{functionSig} options must contain a 'msg' key, in order to create the figlet"
+  end
+  local figTable = fig.ascii_art(options.msg, options.kern, options.smush)
+  local gradient = options.gradient
+  if type(gradient) == "string" then
+    gradient = figinator.grads[gradient]
+  end
+  local gradientType = type(gradient)
+  if gradientType ~= "table" then
+    local gradKeys = table.keys(figinator.grads)
+    printDebug(f"{functionSig} options.gradient must either be a table of gradient stops, such as {{255,0,0},{0,255,0}} , or the name of an included gradient. Ignoring gradient. Valid gradients include: {table.concat(gradKeys, ', ')}", true)
+    gradient = nil
+  end
+  if not gradient then
+    return table.concat(figTable, "\n")
+  end
+
+  options.gradType = options.gradType or "h"
+  local gradType
+  if not (options.gradType:starts("h") or options.gradType:starts("v")) then
+    printDebug(f"{functionSig} options.gradType must begin with 'h' for horizontal gradient, or 'v' for vertical gradient. You passed {options.gradType} which is unknown. Defaulting to 'h' for horizontal", true)
+    gradType = "h"
+  else
+    gradType = options.gradType
+  end
+  if gradType:starts("h") then
+    local length = 0
+    for _, line in ipairs(figTable) do
+      local len = #line
+      if len > length then length = len end
+    end
+    local colors = gm.just_colors(length, unpack(gradient))
+    local result = ""
+    for _, line in ipairs(figTable) do
+      for i=1,#line do
+        local r,g,b = unpack(colors[i])
+        result = string.format("%s<%d,%d,%d>%s",result, r, g, b, sub(line, i, i))
+      end
+      result = result .. "\n"
+    end
+    return result
+  end
+  local length = #figTable
+  local colors = gm.just_colors(length, unpack(gradient))
+  local result = ""
+  for i, line in ipairs(figTable) do
+    local r,g,b = unpack(colors[i])
+    result = string.format("%s<%d,%d,%d>%s\n", result, r, g, b, line)
+  end
+  return result
 end
 
 function figinator.useFont(font)
