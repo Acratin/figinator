@@ -1,6 +1,6 @@
 {
   "package": "figinator",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "demonnic",
   "title": "Create ascii art out of text",
   "outputFile": true
