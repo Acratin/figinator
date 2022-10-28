@@ -23,5 +23,9 @@
   {
     "name": "fig smush",
     "regex": "^fig smush (.+)"
+  },
+  {
+    "name": "fig update",
+    "regex": "^fig update$"
   }
 ]

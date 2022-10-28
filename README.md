@@ -30,6 +30,8 @@ This is primarily meant to be used via script for your triggers and the like to 
   * Draws `msg` in the currently selected font in the main window with kerning
 * `fig smush <msg>`
   * Draws `msg` in the currently selected font in the main window smushed
+* `fig update`
+  * downloads the latest version of the figinator and installs it.
 
 ### API
 
