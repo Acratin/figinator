@@ -67,6 +67,13 @@ This is primarily meant to be used via script for your triggers and the like to 
         * would shift from grey to red to grey
       * `gradient = "rainbow"`
         * will use the included "rainbow" gradient
+    * contrastColor
+      * What color to contrast the gradient with.
+      * defaults to 'black'
+      * can use named colors from cecho (such as "black", "white", "magenta"), decho ("<0,0,0>", "<255,255,255>"), or hecho ("#000000", "#FFFFFF")
+      * the special color "invert" will cause the contrast color to be the inverse of the gradient color. That is to say, if the gradient for a space has `r,g,b` of `128,255,0` then the contrast will be `127,0,255`. This is done for every space.
+    * invert
+      * When this is true then the text will be the contrastColor, and the background will be the gradient color. So if you use the rainbow gradient and the default contrastColor of "black" then the background colors will shift through the rainbow, and the text which makes the ascii art will be black.
   * example:
     * `decho(figinator.getFancy({ msg = "Gradient1", gradient = "rainbow", smush = true }))`
       * Uses the included 'rainbow' gradient horizontally

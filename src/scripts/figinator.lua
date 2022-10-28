@@ -109,6 +109,12 @@ function figinator.getFancy(options)
   else
     gradType = options.gradType
   end
+  local contrastColor = options.contrastColor or "black"
+  local br,bg,bb,contrast
+  if contrastColor ~= "invert" then
+    br,bg,bb = Geyser.Color.parse(contrastColor)
+    contrast = string.format("%d,%d,%d", br, bg, bb)
+  end
   if gradType:starts("h") then
     local length = 0
     for _, line in ipairs(figTable) do
@@ -120,7 +126,17 @@ function figinator.getFancy(options)
     for _, line in ipairs(figTable) do
       for i=1,#line do
         local r,g,b = unpack(colors[i])
-        result = string.format("%s<%d,%d,%d>%s",result, r, g, b, sub(line, i, i))
+        local template
+        if contrastColor == "invert" then
+          br,bb,bg = (255-r), (255-b), (255-g)
+          contrast = string.format("%d,%d,%d", br, bg, bb)
+        end
+        if options.invert then
+          template = "%s<" .. contrast .. ":%d,%d,%d>%s"
+        else
+          template = "%s<%d,%d,%d:" .. contrast .. ">%s"
+        end
+        result = string.format(template, result, r, g, b, sub(line, i, i))
       end
       result = result .. "\n"
     end
@@ -131,7 +147,17 @@ function figinator.getFancy(options)
   local result = ""
   for i, line in ipairs(figTable) do
     local r,g,b = unpack(colors[i])
-    result = string.format("%s<%d,%d,%d>%s\n", result, r, g, b, line)
+    local template
+    if contrastColor == "invert" then
+      br,bb,bg = (255-r), (255-b), (255-g)
+      contrast = string.format("%d,%d,%d", br, bg, bb)
+    end
+    if options.invert then
+      template = "%s<" .. contrast .. ":%d,%d,%d>%s\n"
+    else
+      template = "%s<%d,%d,%d:" .. contrast .. ">%s\n"
+    end
+    result = string.format(template, result, r, g, b, line)
   end
   return result
 end
