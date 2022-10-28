@@ -9,7 +9,10 @@ Examples of all the included fonts can be font on [the Wiki](https://github.com/
 ## Installation
 
 The fastest way to install the figinator is to run the following alias:
+
 `lua uninstallPackage("figinator") installPackage("https://github.com/demonnic/figinator/releases/latest/download/figinator.mpackage")`
+
+After that you can stay up to date using the `fig update` alias. (Available in 1.2+)
 
 ## Usage
 
