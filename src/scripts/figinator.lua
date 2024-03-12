@@ -109,6 +109,13 @@ function figinator.getFancy(options)
   else
     gradType = options.gradType
   end
+  local fontChoice = options.font or "basic"
+  local fontName = fontChoice
+  local ok,err = figinator.useFont(fontName)
+  if not ok then
+    figinator.fecho(err)
+    return
+  end
   local contrastColor = options.contrastColor or "black"
   local br,bg,bb,contrast
   if contrastColor ~= "invert" then
