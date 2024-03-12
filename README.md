@@ -79,6 +79,8 @@ This is primarily meant to be used via script for your triggers and the like to 
       * the special color "invert" will cause the contrast color to be the inverse of the gradient color. That is to say, if the gradient for a space has `r,g,b` of `128,255,0` then the contrast will be `127,0,255`. This is done for every space.
     * invert
       * When this is true then the text will be the contrastColor, and the background will be the gradient color. So if you use the rainbow gradient and the default contrastColor of "black" then the background colors will shift through the rainbow, and the text which makes the ascii art will be black.
+    * font
+      * Select what font you wish this fig to use. Otherwise it will default to basic.  
   * example:
     * `decho(figinator.getFancy({ msg = "Gradient1", gradient = "rainbow", smush = true }))`
       * Uses the included 'rainbow' gradient horizontally
@@ -86,6 +88,8 @@ This is primarily meant to be used via script for your triggers and the like to 
       * Will gradient from red to green horizontally
     * `decho(figinator.getFancy({ msg = "Gradient3", gradType = "v", kern = true, gradient = {{75,0,0}, {255,0,0}} }))`
       * Will gradient from dark red to light red, vertically.
+    * `decho(figinator.getFancy({ msg = "NewFont", gradient = "rainbow", font = "smslant"}))`
+      * Will change font to smslant for this fig.
 
 ## Credit and acclaim
 
